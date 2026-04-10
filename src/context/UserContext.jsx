@@ -23,7 +23,7 @@ export function UserProvider({ children }) {
                 name: "Martin",
                 email,
                 role: "admin",
-                avatar: "https://i.pravatar.cc/150?img=12",
+                avatar: "https://media.licdn.com/dms/image/v2/D4D03AQHqVAFww8VYWA/profile-displayphoto-shrink_100_100/B4DZXzTurLHkAk-/0/1743543792883?e=1777507200&v=beta&t=i-WD-BvKSVjPp_duF4cMo1EU6p3YE7nkhRvMlXib9Mc",
             };
 
             setUser(userData);
