@@ -1,22 +1,14 @@
 import { useState, useContext } from "react";
-import { AuthContext } from "../context/AuthContext";
-import { useNavigate } from "react-router-dom";
+import { UserContext } from "../context/UserContext";
 
-function Login(params) {
-  const navigate = useNavigate();
-  const { login } = useContext(AuthContext);
+function Login() {
+  const { login } = useContext(UserContext);
+
   const [form, setForm] = useState({
-    username: "",
+    email: "",
     password: "",
   });
-  /*  const [username, setUsername] = useState("")
-    const [password, setPassword] = useState("") */
-  /* 
-    {
-        username:"",
-        password:"Manuel"  
-    }
-*/
+
   function handleChange(e) {
     setForm({
       ...form,
@@ -26,34 +18,56 @@ function Login(params) {
 
   function handleSubmit(e) {
     e.preventDefault();
-    const success = login(form.username, form.password);
-    if (success) {
-      alert("Inicio de sesión correcto");
-      navigate("/profile");
-    } else {
-      alert("Credenciales incorrectas");
+
+    if (!form.email || !form.password) {
+      alert("Completa los campos");
+      return;
+    }
+
+    const success = login(form.email, form.password);
+
+    if (!success) {
+      alert("Error al iniciar sesión");
     }
   }
 
   return (
-    <>
-      <h2>Login Page</h2>
-      <form onSubmit={handleSubmit}>
+    <div className="flex items-center justify-center min-h-screen px-4">
+      <form
+        onSubmit={handleSubmit}
+        className="w-full max-w-sm bg-white p-6 rounded-2xl shadow-md"
+      >
+        <h2 className="text-2xl font-bold mb-6 text-center">
+          Iniciar sesión
+        </h2>
+        <p>Correo: martin@example.com</p>
+        <p>Contraseña: 123456</p>
         <input
-          type="text"
-          name="username"
-          placeholder="username"
+          type="email"
+          name="email"
+          placeholder="Correo electrónico"
+          value={form.email}
           onChange={handleChange}
+          className="w-full mb-4 p-3 border rounded-lg"
         />
+
         <input
-          type="text"
+          type="password"
           name="password"
-          placeholder="password"
+          placeholder="Contraseña"
+          value={form.password}
           onChange={handleChange}
+          className="w-full mb-4 p-3 border rounded-lg"
         />
-        <button type="submit">Iniciar Sesión</button>
+
+        <button
+          type="submit"
+          className="w-full bg-blue-500 text-white p-3 rounded-lg hover:bg-blue-600"
+        >
+          Ingresar
+        </button>
       </form>
-    </>
+    </div>
   );
 }
 

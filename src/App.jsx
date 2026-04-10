@@ -1,30 +1,32 @@
-import { Route, Routes } from "react-router-dom";
-import Home from "./pages/Home";
+import { useContext } from "react";
+import { UserProvider, UserContext } from "./context/UserContext";
 import Login from "./pages/Login";
-import Profile from "./pages/Profile";
-import { AuthProvider } from "./context/AuthContext";
-import PrivateRoute from "./routes/PrivateRoute";
-import NotFound from "./pages/NotFound";
+import Dashboard from "./pages/Dashboard";
+
+function AppContent() {
+  const { user, theme } = useContext(UserContext);
+
+  //light si no hay usuario
+  const currentTheme = user ? theme : "light";
+
+  return (
+    <div
+      className={`${
+        currentTheme === "dark"
+          ? "bg-gray-900 text-white"
+          : "bg-gray-100 text-black"
+      } min-h-screen`}
+    >
+      {user ? <Dashboard /> : <Login />}
+    </div>
+  );
+}
 
 function App() {
   return (
-    <>
-      <AuthProvider>
-        <Routes>
-          <Route path="/" element={<Login />}></Route>
-          <Route path="/home" element={<Home />}></Route>
-          <Route
-            path="/profile"
-            element={
-              <PrivateRoute>
-                <Profile />
-              </PrivateRoute>
-            }
-          ></Route>
-          <Route path="*" element={<NotFound />}></Route>
-        </Routes>
-      </AuthProvider>
-    </>
+    <UserProvider>
+      <AppContent />
+    </UserProvider>
   );
 }
 
